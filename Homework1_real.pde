@@ -1,7 +1,6 @@
-// can change the stroke weight, triagle color, background color
-
 //Initializing things
 color sqColor; // for random color thing
+int[] positions = new int[0];  // for "imposed structure" - new=makes a new "instance"
 
 int sqX = 300;
 int sqY = 300;
@@ -20,10 +19,11 @@ void setup(){
   text("Move your mouse to add dots across the background fabric.", 10, 20);
   text("Move the cursor over the middle square to randomize the color.", 10, 35);
   text("Press B on the keyboard to make the stroke size bigger.", 10, 50);
-  text("Have fun!", 10, 65);
+  text("Click on the screen to add a horizontal line of quilting.", 10, 65);
+  text("Have fun!", 10, 80);
 }
 
-void pressMouse(){ // interaction for mouse press function set up 
+void moveMouse(){ // interaction for mouse press function set up 
   boolean insideRect = mouseX > sqX && mouseX < sqX + sqW && mouseY>sqY && mouseY<sqY+sqH;
   if (insideRect) {
     sqColor= color(random(255), random(255), random(255));
@@ -89,6 +89,18 @@ void draw(){
  strokeWeight(4);
  point(mouseX,mouseY); 
  
- pressMouse();
+// vertical lines for "Imposed Structure" requirement 
+ stroke(200,230,200);
+ strokeWeight(2);
+ for (int i = 0; i < positions.length; i++) { // keeps the array going
+   line(positions[i], 0, positions[i], height); //line(x1, y1, x2, y2)
+ }
+ 
+ moveMouse();
 
+}
+
+void mousePressed() { // when mouse is pressed,
+  positions = append(positions, mouseX); //adds new value at the end of array
+  positions = sort(positions); // sort the array 
 }
